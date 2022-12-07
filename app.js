@@ -55,6 +55,8 @@ function makeSound(hex) {
 
   //play a middle 'C' for the duration of an 8th note
   synth.triggerAttackRelease("C4", "8n");
+
+  // var osc = new Tone.Oscillator(440, "sine").toMaster();
 }
 
 function generateSound () {
