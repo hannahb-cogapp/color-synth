@@ -1,0 +1,44 @@
+body {
+  margin: 0 auto;
+  width: 80%;
+  background-color: #726DA8;
+}
+
+a {
+  color: black;
+}
+
+input {
+  margin-bottom: 20px;
+}
+
+.container {
+  width: 1000px;
+  margin: 62px auto;
+  padding: 16px 36px;
+  font-family: 'Arial', 'sans-serif';
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+.intro-container {
+  margin-bottom: 24px;
+}
+
+.instrument-container {
+  display: flex;
+}
+
+.key-container {
+  margin-right: 20px;
+}
+
+.trigger {
+  border: solid 4px black;
+  border-radius: 50%;
+  width: 100%;
+  height: auto;
+  min-height: 20px;
+  aspect-ratio: 1 / 1;
+  margin: auto;
+}

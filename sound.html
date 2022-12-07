@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Color Synth</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--CSS Style Sheet-->
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+		<!-- jQuery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+		<!-- Tone.js -->
+		<script src="https://unpkg.com/tone"></script>
+
+	</head>
+	<body>
+		<div class="container">
+			<h1>Color Synth</h1>
+			<div class="intro-container">
+				<p>Create a color synth by inputing 6 different colors.</p>
+				<a href="https://coolors.co/594157-726da8-7d8cc4-a0d2db-bee7e8" target="_blank">You can use this for color inspiration.</a>
+			</div>
+			<div class="instrument-container">
+				<div class="key-container">
+					<label for="color-1">Color One:</label>
+					<input type="text" name="color-1" id="color-1" class="color-input" data-color="1">
+
+					<button data-trigger="1" class="trigger">
+					</button>
+
+				</div>
+
+				<div class="key-container">
+					<label for="color-2">Color Two:</label>
+					<input type="text" name="color-2" id="color-2" class="color-input" data-color="2">
+
+					<button data-trigger="2" class="trigger">
+					</button>
+
+				</div>
+
+				<div class="key-container">
+					<label for="color-3">Color Three:</label>
+					<input type="text" name="color-3" id="color-3" class="color-input" data-color="3">
+
+					<button data-trigger="3"  class="trigger">
+					</button>
+				</div>
+
+				<div class="key-container">
+					<label for="color-4">Color Four:</label>
+					<input type="text" name="color-4" id="color-4" class="color-input" data-color="4">
+
+					<button data-trigger="4"  class="trigger">
+					</button>
+				</div>
+
+				<div class="key-container">
+					<label for="color-5">Color Five:</label>
+					<input type="text" name="color-5" id="color-5" class="color-input" data-color="5">
+
+					<button data-trigger="5"  class="trigger">
+					</button>
+				</div>
+
+				<div class="key-container">
+					<label for="color-6">Color Six:</label>
+					<input type="text" name="color-6" id="color-6" class="color-input" data-color="6">
+
+					<button data-trigger="6"  class="trigger">
+					</button>
+				</div>
+			</div>
+		</div>
+
+    <!-- Link to JavaScript file -->
+    <script src="app.js"></script>
+	</body>
+</html>
