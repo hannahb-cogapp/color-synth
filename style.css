@@ -12,6 +12,10 @@ input {
   margin-bottom: 20px;
 }
 
+button {
+  background-color: #c0c0c0; 
+}
+
 .container {
   width: 1000px;
   margin: 62px auto;
