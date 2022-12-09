@@ -49,14 +49,70 @@ function mouseHandler(event) {
 }
 
 function makeSound(rgb) {
-  let brightness = rgb.split(',').map(function(str) {
-         // using map() to convert array of strings to numbers
-         return parseInt(str); }).reduce((partialSum, a) => partialSum + a, 0) / 3;
+  let rgbArray = rgb.split(',').map(function(str) {
+     // using map() to convert array of strings to numbers
+     return parseInt(str);
+   });
+
+  let brightness = rgbArray.reduce((partialSum, a) => partialSum + a, 0) / 3;
+
+  // Empty effect variables
+  let distortion;
+  let reverb;
+  let tremolo;
+  let wave;
+
+  // Red effect
+  if (rgbArray[0] > 0) {
+    let amount = 1/255 * rgbArray[0];
+    console.log(amount);
+    distortion = new Tone.Distortion(amount).toDestination();
+    reverb = new Tone.JCReverb(amount).connect(Tone.Master).toDestination();
+    //create a tremolo and start it's LFO
+    tremolo = new Tone.Tremolo(9, amount).toDestination().start()
+  } else {
+    distortion = new Tone.Distortion(0).toDestination();
+    reverb = new Tone.JCReverb(0).connect(Tone.Master).toDestination();
+    tremolo = new Tone.Tremolo(9, 0).toDestination().start()
+  }
+
+
+  // Green effect
+  // const feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
+  // var delay = new Tone.FeedbackDelay(1).toDestination();
+
+  // Blue effect - type of wave
+  switch(true) {
+    case (rgbArray[2] < 65):
+      console.log('sine');
+      wave = "sine";
+      break;
+    case (rgbArray[2] >= 65 && rgbArray[2] < 129):
+    console.log('square');
+      wave = "square";
+      break;
+    case (rgbArray[2] >= 129 && rgbArray[2] < 193):
+    console.log('triangle');
+      wave = "triangle";
+      break;
+    case (rgbArray[2] >= 193 && rgbArray[2] < 256):
+    console.log('sawtooth');
+      wave = "sawtooth";
+      break;
+    default:
+  }
 
   //create a synth and connect it to the main output (your speakers)
-  const synth = new Tone.Synth().toDestination();
+  const synth = new Tone.Synth({
+    oscillator : {
+      type : wave
+    }
+  }).toDestination().chain(tremolo, distortion, reverb);
 
+  // Assign a pitch based on the brightness of the color
   switch(true) {
+    // Todo: Is there a way to simplify this code? Could you do it in a way that would make it easier to change to a minor key?
+    // Perhaps you could put all of the notes in an array, and assign an incremented array index every 'x' times e.g. 6
     case (brightness < 7):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("C2", "8n");
@@ -225,6 +281,7 @@ function makeSound(rgb) {
       synth.triggerAttackRelease("B7", "8n");
       break;
     default:
+    // Todo: Add default code
       // code block
   }
 
