@@ -49,268 +49,180 @@ function mouseHandler(event) {
 }
 
 function makeSound(rgb) {
-  console.log(typeof rgb[0]);
-
   let brightness = rgb.split(',').map(function(str) {
          // using map() to convert array of strings to numbers
          return parseInt(str); }).reduce((partialSum, a) => partialSum + a, 0) / 3;
-
-  console.log(brightness);
 
   //create a synth and connect it to the main output (your speakers)
   const synth = new Tone.Synth().toDestination();
 
   switch(true) {
-    case (brightness < 5):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("C0", "8n");
-      break;
-    case (brightness >= 5 && brightness < 9):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("D0", "8n");
-      break;
-    case (brightness >= 9 && brightness < 13):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("E0", "8n");
-      break;
-    case (brightness >= 13 && brightness < 17):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("F0", "8n");
-      break;
-    case (brightness >= 17 && brightness < 21):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("G0", "8n");
-      break;
-    case (brightness >= 21 && brightness < 25):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("A0", "8n");
-      break;
-    case (brightness >= 25 && brightness < 29):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("B0", "8n");
-      break;
-    case (brightness >= 29 && brightness < 33):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("C1", "8n");
-      break;
-    case (brightness >= 33 && brightness < 37):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("D1", "8n");
-      break;
-    case (brightness >= 37 && brightness < 41):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("E1", "8n");
-      break;
-    case (brightness >= 41 && brightness < 45):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("F1", "8n");
-      break;
-    case (brightness >= 45 && brightness < 49):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("G1", "8n");
-      break;
-    case (brightness >= 49 && brightness < 53):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("A1", "8n");
-      break;
-    case (brightness >= 53 && brightness < 57):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("B1", "8n");
-      break;
-    case (brightness >= 57 && brightness < 61):
+    case (brightness < 7):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("C2", "8n");
       break;
-    case (brightness >= 61 && brightness < 65):
+    case (brightness >= 7 && brightness < 12):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("D2", "8n");
       break;
-    case (brightness >= 65 && brightness < 69):
+    case (brightness >= 12 && brightness < 18):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("E2", "8n");
       break;
-    case (brightness >= 69 && brightness < 72):
+    case (brightness >= 18 && brightness < 24):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("F2", "8n");
       break;
-    case (brightness >= 72 && brightness < 76):
+    case (brightness >= 24 && brightness < 32):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("G2", "8n");
       break;
-    case (brightness >= 76 && brightness < 80):
+    case (brightness >= 32 && brightness < 38):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("A2", "8n");
       break;
-    case (brightness >= 80 && brightness < 84):
+    case (brightness >= 38 && brightness < 44):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("B2", "8n");
       break;
-    case (brightness >= 84 && brightness < 88):
+    case (brightness >= 44 && brightness < 50):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("C3", "8n");
       break;
-    case (brightness >= 88 && brightness < 92):
+    case (brightness >= 50 && brightness < 56):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("D3", "8n");
       break;
-    case (brightness >= 92 && brightness < 96):
+    case (brightness >= 56 && brightness < 62):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("E3", "8n");
       break;
-    case (brightness >= 96 && brightness < 100):
+    case (brightness >= 62 && brightness < 68):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("F3", "8n");
       break;
-    case (brightness >= 100 && brightness < 104):
+    case (brightness >= 68 && brightness < 74):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("G3", "8n");
-    case (brightness >= 104 && brightness < 108):
+    case (brightness >= 74 && brightness < 80):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("A3", "8n");
       break;
-    case (brightness >= 108 && brightness < 112):
+    case (brightness >= 80 && brightness < 86):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("B3", "8n");
       break;
-    case (brightness >= 112 && brightness < 116):
+    case (brightness >= 86 && brightness < 92):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("C4", "8n");
       break;
-    case (brightness >= 116 && brightness < 120):
+    case (brightness >= 92 && brightness < 98):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("D4", "8n");
       break;
-    case (brightness >= 120 && brightness < 124):
+    case (brightness >= 98 && brightness < 104):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("E4", "8n");
       break;
-    case (brightness >= 124 && brightness < 128):
+    case (brightness >= 104 && brightness < 110):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("F4", "8n");
       break;
-    case (brightness >= 128 && brightness < 132):
+    case (brightness >= 110 && brightness < 116):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("G4", "8n");
       break;
-    case (brightness >= 132 && brightness < 136):
+    case (brightness >= 116 && brightness < 122):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("A4", "8n");
       break;
-    case (brightness >= 136 && brightness < 140):
+    case (brightness >= 122 && brightness < 128):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("B4", "8n");
       break;
-    case (brightness >= 140 && brightness < 144):
+    case (brightness >= 128 && brightness < 134):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("C5", "8n");
       break;
-    case (brightness >= 144 && brightness < 148):
+    case (brightness >= 134 && brightness < 140):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("D5", "8n");
       break;
-    case (brightness >= 148 && brightness < 152):
+    case (brightness >= 140 && brightness < 146):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("E5", "8n");
       break;
-    case (brightness >= 152 && brightness < 156):
+    case (brightness >= 146 && brightness < 152):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("F5", "8n");
       break;
-    case (brightness >= 156 && brightness < 160):
+    case (brightness >= 152 && brightness < 158):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("G5", "8n");
       break;
-    case (brightness >= 160 && brightness < 164):
+    case (brightness >= 158 && brightness < 164):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("A5", "8n");
       break;
-    case (brightness >= 164 && brightness < 168):
+    case (brightness >= 164 && brightness < 170):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("B5", "8n");
       break;
-    case (brightness >= 168 && brightness < 172):
+    case (brightness >= 170 && brightness < 176):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("C6", "8n");
       break;
-    case (brightness >= 172 && brightness < 176):
+    case (brightness >= 176 && brightness < 182):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("D6", "8n");
       break;
-    case (brightness >= 176 && brightness < 180):
+    case (brightness >= 182 && brightness < 188):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("E6", "8n");
       break;
-    case (brightness >= 180 && brightness < 184):
+    case (brightness >= 188 && brightness < 194):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("F6", "8n");
       break;
-    case (brightness >= 184 && brightness < 188):
+    case (brightness >= 194 && brightness < 200):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("G6", "8n");
       break;
-    case (brightness >= 188 && brightness < 192):
+    case (brightness >= 200 && brightness < 206):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("A6", "8n");
       break;
-    case (brightness >= 192 && brightness < 196):
+    case (brightness >= 212 && brightness < 218):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("B6", "8n");
       break;
-    case (brightness >= 196 && brightness < 200):
+    case (brightness >= 218 && brightness < 224):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("C7", "8n");
       break;
-    case (brightness >= 200 && brightness < 204):
+    case (brightness >= 224 && brightness < 230):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("D7", "8n");
       break;
-    case (brightness >= 204 && brightness < 208):
+    case (brightness >= 230 && brightness < 236):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("E7", "8n");
       break;
-    case (brightness >= 208 && brightness < 212):
+    case (brightness >= 236 && brightness < 242):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("F7", "8n");
       break;
-    case (brightness >= 212 && brightness < 216):
+    case (brightness >= 242 && brightness < 248):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("G7", "8n");
       break;
-    case (brightness >= 216 && brightness < 220):
+    case (brightness >= 248 && brightness < 254):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("A7", "8n");
       break;
-    case (brightness >= 220 && brightness < 224):
+    case (brightness >= 254 && brightness < 256):
       //play a 'C0' for the duration of an 8th note
       synth.triggerAttackRelease("B7", "8n");
-      break;
-    case (brightness >= 224 && brightness < 228):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("C8", "8n");
-      break;
-    case (brightness >= 228 && brightness < 232):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("D8", "8n");
-      break;
-    case (brightness >= 232 && brightness < 236):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("E8", "8n");
-      break;
-    case (brightness >= 236 && brightness < 240):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("F8", "8n");
-      break;
-    case (brightness >= 240 && brightness < 244):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("G8", "8n");
-      break;
-    case (brightness >= 244 && brightness < 248):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("A8", "8n");
-      break;
-    case (brightness >= 248 && brightness < 256):
-      //play a 'C0' for the duration of an 8th note
-      synth.triggerAttackRelease("B8", "8n");
       break;
     default:
       // code block
