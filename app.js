@@ -52,8 +52,6 @@ function mouseHandler(event) {
   let colorNumber = triggerNumber.getAttribute('data-trigger');
   if (!colorNumber) return;
 
-  console.log(colorNumber);
-
   // If that number input has a value, then run the makeSound function, passing it the relevant hex code
   if (colorInputs[colorNumber-1].value) {
     makeSound(colorInputs[colorNumber-1].value.convertToRGB());
@@ -61,8 +59,6 @@ function mouseHandler(event) {
 }
 
 function makeSound(rgb) {
-  console.log(rgb);
-
   let brightness = rgb.reduce((partialSum, a) => partialSum + a, 0) / 3;
 
   // Empty effect variables
@@ -70,16 +66,19 @@ function makeSound(rgb) {
   let reverb;
   let tremolo;
   let wave;
+  let wah;
+  let chorus;
+  let phaser;
+  let crusher;
 
   // Red effect - amount of distortion, reverb and tremolo
   if (rgb[0] > 0) {
     let amount = 1/255 * rgb[0];
-    console.log(amount);
     distortion = new Tone.Distortion(amount).toDestination();
     reverb = new Tone.JCReverb(amount).connect(Tone.Master).toDestination();
     //create a tremolo and start it's LFO
     tremolo = new Tone.Tremolo(9, amount).toDestination().start()
-  } else {
+  } else if (rgb[0] === 0) {
     distortion = new Tone.Distortion(0).toDestination();
     reverb = new Tone.JCReverb(0).connect(Tone.Master).toDestination();
     tremolo = new Tone.Tremolo(9, 0).toDestination().start()
@@ -87,25 +86,29 @@ function makeSound(rgb) {
 
 
   // Green effect
+  // wah = new Tone.AutoWah(50, 6, -30).toDestination();
+  // chorus = new Tone.Chorus(4, 2.5, 0.5).toDestination();
+  // phaser = new Tone.Phaser({
+  //   "frequency" : 15,
+  //   "octaves" : 5,
+  //   "baseFrequency" : 1000
+  // }).toDestination();
+  // crusher = new Tone.BitCrusher(4).toDestination();
   // const feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
   // var delay = new Tone.FeedbackDelay(1).toDestination();
 
   // Blue effect - type of wave
   switch(true) {
     case (rgb[2] < 65):
-      console.log('sine');
       wave = "sine";
       break;
     case (rgb[2] >= 65 && rgb[2] < 129):
-    console.log('square');
       wave = "square";
       break;
     case (rgb[2] >= 129 && rgb[2] < 193):
-    console.log('triangle');
       wave = "triangle";
       break;
     case (rgb[2] >= 193 && rgb[2] < 256):
-    console.log('sawtooth');
       wave = "sawtooth";
       break;
     default:
@@ -116,7 +119,7 @@ function makeSound(rgb) {
     oscillator : {
       type : wave
     }
-  }).toDestination().chain(tremolo, distortion, reverb);
+  }).toDestination().chain(distortion, reverb, tremolo);
 
   // Assign a pitch based on the brightness of the color
   switch(true) {
@@ -225,25 +228,25 @@ function makeSound(rgb) {
     case (brightness >= 200 && brightness < 206):
       synth.triggerAttackRelease("A6", "8n");
       break;
-    case (brightness >= 212 && brightness < 218):
+    case (brightness >= 206 && brightness < 212):
       synth.triggerAttackRelease("B6", "8n");
       break;
-    case (brightness >= 218 && brightness < 224):
+    case (brightness >= 212 && brightness < 218):
       synth.triggerAttackRelease("C7", "8n");
       break;
-    case (brightness >= 224 && brightness < 230):
+    case (brightness >= 218 && brightness < 224):
       synth.triggerAttackRelease("D7", "8n");
       break;
-    case (brightness >= 230 && brightness < 236):
+    case (brightness >= 224 && brightness < 230):
       synth.triggerAttackRelease("E7", "8n");
       break;
-    case (brightness >= 236 && brightness < 242):
+    case (brightness >= 230 && brightness < 236):
       synth.triggerAttackRelease("F7", "8n");
       break;
-    case (brightness >= 242 && brightness < 248):
+    case (brightness >= 236 && brightness < 242):
       synth.triggerAttackRelease("G7", "8n");
       break;
-    case (brightness >= 248 && brightness < 254):
+    case (brightness >= 242 && brightness < 248):
       synth.triggerAttackRelease("A7", "8n");
       break;
     case (brightness >= 254 && brightness < 256):
