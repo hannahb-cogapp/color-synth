@@ -20,17 +20,25 @@ String.prototype.convertToRGB = function(){
 
 // Call this function when a color is input into any of the input fields
 function inputHandler(event) {
-
+  console.log('input triggered');
   // Find the input number
   let inputNumber = event.closest('[data-color]').getAttribute('data-color');
   if (!inputNumber) return;
 
-  // If that number input has a value, then run the changeColor function, passing in it the relevant trigger
-  if (colorInputs[inputNumber-1].value) {
-      // Get the relevant trigger to add to the function
-      let trigger = triggers[inputNumber-1];
+  console.log(colorInputs[inputNumber-1].value.length);
 
-      changeColor(colorInputs[inputNumber-1].value, trigger);
+  // If that number input has a value, then run the changeColor function, passing in it the relevant trigger
+  if (colorInputs[inputNumber-1].value.length > 0) {
+    // Get the relevant trigger to add to the function
+    let trigger = triggers[inputNumber-1];
+
+    changeColor(colorInputs[inputNumber-1].value, trigger);
+  } else {
+    console.log('equals 0');
+    // Get the relevant trigger to add to the function
+    let trigger = triggers[inputNumber-1];
+
+    changeColor('C0C0C0', trigger);
   }
 }
 
@@ -59,17 +67,19 @@ function mouseHandler(event) {
 }
 
 function makeSound(rgb) {
+  console.log(rgb);
+
   let brightness = rgb.reduce((partialSum, a) => partialSum + a, 0) / 3;
+
+  // Empty synth variable
+  let synth;
 
   // Empty effect variables
   let distortion;
   let reverb;
   let tremolo;
   let wave;
-  let wah;
-  let chorus;
-  let phaser;
-  let crusher;
+  let synthType;
 
   // Red effect - amount of distortion, reverb and tremolo
   if (rgb[0] > 0) {
@@ -84,9 +94,143 @@ function makeSound(rgb) {
     tremolo = new Tone.Tremolo(9, 0).toDestination().start()
   }
 
+  // Green effect - type of wave
+  switch(true) {
+    case (rgb[1] < 65):
+      wave = "sine";
+      break;
+    case (rgb[1] >= 65 && rgb[1] < 129):
+      wave = "square";
+      break;
+    case (rgb[1] >= 129 && rgb[1] < 193):
+      wave = "triangle";
+      break;
+    case (rgb[1] >= 193 && rgb[1] < 256):
+      wave = "sawtooth";
+      break;
+    default:
+  }
 
-  // Green effect
-  // wah = new Tone.AutoWah(50, 6, -30).toDestination();
+  // Blue effect - type of synth
+  switch(true) {
+    case (rgb[2] < 65):
+      //create a synth and connect it to the main output (your speakers)
+      synth = new Tone.Synth({
+        oscillator : {
+          type : wave
+        }
+      }).toDestination().chain(distortion, reverb, tremolo);
+      break;
+    case (rgb[2] >= 65 && rgb[2] < 129):
+      synth = new Tone.FMSynth({
+        harmonicity : 3 ,
+        modulationIndex : 10 ,
+        detune : 0 ,
+        oscillator : {
+        type : wave
+        } ,
+        envelope : {
+        attack : 0.01 ,
+        decay : 0.01 ,
+        sustain : 1 ,
+        release : 0.5
+        } ,
+        modulation : {
+        type : "square"
+        } ,
+        modulationEnvelope : {
+        attack : 0.5 ,
+        decay : 0 ,
+        sustain : 1 ,
+        release : 0.5
+        }
+      }).toDestination().chain(distortion, reverb, tremolo);
+      break;
+    case (rgb[2] >= 129 && rgb[2] < 193):
+      synth = new Tone.DuoSynth({
+        vibratoAmount : 0.5 ,
+        vibratoRate : 5 ,
+        harmonicity : 1.5 ,
+        voice0 : {
+        volume : -10 ,
+        portamento : 0 ,
+        oscillator : {
+        type : wave
+        } ,
+        filterEnvelope : {
+        attack : 0.01 ,
+        decay : 0 ,
+        sustain : 1 ,
+        release : 0.5
+        } ,
+        envelope : {
+        attack : 0.01 ,
+        decay : 0 ,
+        sustain : 1 ,
+        release : 0.5
+        }
+        } ,
+        voice1 : {
+        volume : -10 ,
+        portamento : 0 ,
+        oscillator : {
+        type : wave
+        } ,
+        filterEnvelope : {
+        attack : 0.01 ,
+        decay : 0 ,
+        sustain : 1 ,
+        release : 0.5
+        } ,
+        envelope : {
+        attack : 0.01 ,
+        decay : 0 ,
+        sustain : 1 ,
+        release : 0.5
+        }
+        }
+      }).toDestination().chain(distortion, reverb, tremolo);
+      break;
+    case (rgb[2] >= 193 && rgb[2] < 256):
+      synth = new Tone.MonoSynth({
+        frequency : "C4",
+        detune : 0 ,
+        oscillator : {
+        type : wave
+        } ,
+        filter : {
+        Q : 6 ,
+        type : "lowpass",
+        rolloff : -24
+        } ,
+        envelope : {
+        attack : 0.005 ,
+        decay : 0.1 ,
+        sustain : 0.9 ,
+        release : 1
+        } ,
+        filterEnvelope : {
+        attack : 0.06 ,
+        decay : 0.2 ,
+        sustain : 0.5 ,
+        release : 2 ,
+        baseFrequency : 200 ,
+        octaves : 7 ,
+        exponent : 2
+        }
+      }).toDestination().chain(distortion, reverb, tremolo);
+      break;
+    default:
+      synth = new Tone.Synth({
+        oscillator : {
+          type : wave
+        }
+      }).toDestination().chain(distortion, reverb, tremolo);
+      break;
+  }
+
+  // Unused effects
+  // wah = new Tone.AutoWah(100, 6, -40).toDestination();
   // chorus = new Tone.Chorus(4, 2.5, 0.5).toDestination();
   // phaser = new Tone.Phaser({
   //   "frequency" : 15,
@@ -94,32 +238,8 @@ function makeSound(rgb) {
   //   "baseFrequency" : 1000
   // }).toDestination();
   // crusher = new Tone.BitCrusher(4).toDestination();
-  // const feedbackDelay = new Tone.FeedbackDelay("8n", 0.5).toDestination();
+  // const feedbackDelay = new Tone.FeedbackDelay("8n", 1).toDestination();
   // var delay = new Tone.FeedbackDelay(1).toDestination();
-
-  // Blue effect - type of wave
-  switch(true) {
-    case (rgb[2] < 65):
-      wave = "sine";
-      break;
-    case (rgb[2] >= 65 && rgb[2] < 129):
-      wave = "square";
-      break;
-    case (rgb[2] >= 129 && rgb[2] < 193):
-      wave = "triangle";
-      break;
-    case (rgb[2] >= 193 && rgb[2] < 256):
-      wave = "sawtooth";
-      break;
-    default:
-  }
-
-  //create a synth and connect it to the main output (your speakers)
-  const synth = new Tone.Synth({
-    oscillator : {
-      type : wave
-    }
-  }).toDestination().chain(distortion, reverb, tremolo);
 
   // Assign a pitch based on the brightness of the color
   switch(true) {
@@ -162,6 +282,7 @@ function makeSound(rgb) {
       break;
     case (brightness >= 68 && brightness < 74):
       synth.triggerAttackRelease("G3", "8n");
+      break;
     case (brightness >= 74 && brightness < 80):
       synth.triggerAttackRelease("A3", "8n");
       break;
@@ -249,15 +370,13 @@ function makeSound(rgb) {
     case (brightness >= 242 && brightness < 248):
       synth.triggerAttackRelease("A7", "8n");
       break;
-    case (brightness >= 254 && brightness < 256):
+    case (brightness >= 248 && brightness < 256):
       synth.triggerAttackRelease("B7", "8n");
       break;
     default:
-    // Todo: Add default code
-      // code block
+      synth.triggerAttackRelease("C4", "8n");
+      break;
   }
-
-  // var osc = new Tone.Oscillator(440, "sine").toDestination();
 }
 
 // When a colour is input, change the trigger to that colour
