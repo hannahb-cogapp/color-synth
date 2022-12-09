@@ -229,18 +229,6 @@ function makeSound(rgb) {
       break;
   }
 
-  // Unused effects
-  // wah = new Tone.AutoWah(100, 6, -40).toDestination();
-  // chorus = new Tone.Chorus(4, 2.5, 0.5).toDestination();
-  // phaser = new Tone.Phaser({
-  //   "frequency" : 15,
-  //   "octaves" : 5,
-  //   "baseFrequency" : 1000
-  // }).toDestination();
-  // crusher = new Tone.BitCrusher(4).toDestination();
-  // const feedbackDelay = new Tone.FeedbackDelay("8n", 1).toDestination();
-  // var delay = new Tone.FeedbackDelay(1).toDestination();
-
   // Assign a pitch based on the brightness of the color
   switch(true) {
     // Todo: Is there a way to simplify this code? Could you do it in a way that would make it easier to change to a minor key?
