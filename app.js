@@ -2,6 +2,22 @@
 let colorInputs = document.querySelectorAll('.color-input');
 let triggers = document.querySelectorAll('.trigger');
 
+// Function to convert hex to rgb
+// https://convertingcolors.com/blog/article/convert_hex_to_rgb_with_javascript.html
+String.prototype.convertToRGB = function(){
+    if(this.length != 6){
+        throw "Only six-digit hex colors are allowed.";
+    }
+
+    var aRgbHex = this.match(/.{1,2}/g);
+    var aRgb = [
+        parseInt(aRgbHex[0], 16),
+        parseInt(aRgbHex[1], 16),
+        parseInt(aRgbHex[2], 16)
+    ];
+    return aRgb;
+}
+
 // Todo: Does it work to set these up globally? How else will you be able to stop the sound with the button?
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 const oscillator = audioCtx.createOscillator();
@@ -24,7 +40,7 @@ function inputHandler(event) {
 
 // A function to change the color of the trigger button to the input value
 function changeColor(value, trigger) {
-  let color = 'rgb(' + value + ')';
+  let color = '#' + value;
 
   trigger.style.backgroundColor = color;
 }
@@ -44,17 +60,14 @@ function mouseHandler(event) {
 
   // If that number input has a value, then run the makeSound function, passing it the relevant hex code
   if (colorInputs[colorNumber-1].value) {
-    makeSound(colorInputs[colorNumber-1].value);
+    makeSound(colorInputs[colorNumber-1].value.convertToRGB());
   }
 }
 
 function makeSound(rgb) {
-  let rgbArray = rgb.split(',').map(function(str) {
-     // using map() to convert array of strings to numbers
-     return parseInt(str);
-   });
+  console.log(rgb);
 
-  let brightness = rgbArray.reduce((partialSum, a) => partialSum + a, 0) / 3;
+  let brightness = rgb.reduce((partialSum, a) => partialSum + a, 0) / 3;
 
   // Empty effect variables
   let distortion;
@@ -63,8 +76,8 @@ function makeSound(rgb) {
   let wave;
 
   // Red effect
-  if (rgbArray[0] > 0) {
-    let amount = 1/255 * rgbArray[0];
+  if (rgb[0] > 0) {
+    let amount = 1/255 * rgb[0];
     console.log(amount);
     distortion = new Tone.Distortion(amount).toDestination();
     reverb = new Tone.JCReverb(amount).connect(Tone.Master).toDestination();
@@ -83,19 +96,19 @@ function makeSound(rgb) {
 
   // Blue effect - type of wave
   switch(true) {
-    case (rgbArray[2] < 65):
+    case (rgb[2] < 65):
       console.log('sine');
       wave = "sine";
       break;
-    case (rgbArray[2] >= 65 && rgbArray[2] < 129):
+    case (rgb[2] >= 65 && rgb[2] < 129):
     console.log('square');
       wave = "square";
       break;
-    case (rgbArray[2] >= 129 && rgbArray[2] < 193):
+    case (rgb[2] >= 129 && rgb[2] < 193):
     console.log('triangle');
       wave = "triangle";
       break;
-    case (rgbArray[2] >= 193 && rgbArray[2] < 256):
+    case (rgb[2] >= 193 && rgb[2] < 256):
     console.log('sawtooth');
       wave = "sawtooth";
       break;
