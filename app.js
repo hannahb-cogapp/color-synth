@@ -135,6 +135,7 @@ function makeSound(rgb) {
         sustain : 1 ,
         release : 0.5
         } ,
+        // Todo: Change this to a secondWave variable?
         modulation : {
         type : "square"
         } ,
@@ -228,6 +229,12 @@ function makeSound(rgb) {
       }).toDestination().chain(distortion, reverb, tremolo);
       break;
   }
+
+  // Todo: Is there a way to change the switch statement to be more efficient? I'm not sure. Could you loop through this array, and say everytime i % iteration === 0, the indexCounter increases by one i.e. majorScale[indexCounter]
+  // Maybe the way you've done it makes the most sense?
+  // let majorScale = ["C2", "D2", "E2", "F2", "G2", "A2", "B2", "C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6", "D6", "E6", "F6", "G6", "A6", "B6", "C7", "D7", "E7", "F7", "G7", "A7", "B7"];
+
+  // let iteration = 6;
 
   // Assign a pitch based on the brightness of the color
   switch(true) {
