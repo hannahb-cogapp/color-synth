@@ -2,6 +2,16 @@
 let colorInputs = document.querySelectorAll('.color-input');
 let triggers = document.querySelectorAll('.trigger');
 
+// Empty synth variable
+let synth;
+
+// Empty effect variables
+let distortion;
+let reverb;
+let tremolo;
+let wave;
+let synthType;
+
 // Function to convert hex to rgb
 // https://convertingcolors.com/blog/article/convert_hex_to_rgb_with_javascript.html
 String.prototype.convertToRGB = function(){
@@ -63,29 +73,29 @@ function mouseHandler(event) {
 }
 
 function makeSound(rgb) {
+  if (synth) {
+    synth = undefined;
+    distortion = undefined;
+    reverb = undefined;
+    tremolo = undefined;
+    wave = undefined;
+    synthType = undefined;
+    console.log('empty synth');
+  }
+
   let brightness = rgb.reduce((partialSum, a) => partialSum + a, 0) / 3;
-
-  // Empty synth variable
-  let synth;
-
-  // Empty effect variables
-  let distortion;
-  let reverb;
-  let tremolo;
-  let wave;
-  let synthType;
 
   // Red effect - amount of distortion, reverb and tremolo
   if (rgb[0] > 0) {
     let amount = 1/255 * rgb[0];
-    distortion = new Tone.Distortion(amount).toDestination();
-    reverb = new Tone.JCReverb(amount).connect(Tone.Master).toDestination();
+    distortion = new Tone.Distortion(amount);
+    reverb = new Tone.JCReverb(amount).connect(Tone.Master);
     //create a tremolo and start it's LFO
-    tremolo = new Tone.Tremolo(9, amount).toDestination().start()
+    tremolo = new Tone.Tremolo(9, amount);
   } else if (rgb[0] === 0) {
-    distortion = new Tone.Distortion(0).toDestination();
-    reverb = new Tone.JCReverb(0).connect(Tone.Master).toDestination();
-    tremolo = new Tone.Tremolo(9, 0).toDestination().start()
+    distortion = new Tone.Distortion(0);
+    reverb = new Tone.JCReverb(0).connect(Tone.Master);
+    tremolo = new Tone.Tremolo(9, 0);
   }
 
   // Green effect - type of wave
@@ -113,7 +123,8 @@ function makeSound(rgb) {
         oscillator : {
           type : wave
         }
-      }).toDestination().chain(distortion, reverb, tremolo);
+      });
+      console.log('new synth');
       break;
     case (rgb[2] >= 65 && rgb[2] < 129):
       synth = new Tone.FMSynth({
@@ -139,7 +150,8 @@ function makeSound(rgb) {
         sustain : 1 ,
         release : 0.5
         }
-      }).toDestination().chain(distortion, reverb, tremolo);
+      });
+      console.log('new synth');
       break;
     case (rgb[2] >= 129 && rgb[2] < 193):
       synth = new Tone.DuoSynth({
@@ -184,7 +196,8 @@ function makeSound(rgb) {
         release : 0.5
         }
         }
-      }).toDestination().chain(distortion, reverb, tremolo);
+      });
+      console.log('new synth');
       break;
     case (rgb[2] >= 193 && rgb[2] < 256):
       synth = new Tone.MonoSynth({
@@ -213,14 +226,16 @@ function makeSound(rgb) {
         octaves : 7 ,
         exponent : 2
         }
-      }).toDestination().chain(distortion, reverb, tremolo);
+      });
+      console.log('new synth');
       break;
     default:
       synth = new Tone.Synth({
         oscillator : {
           type : wave
         }
-      }).toDestination().chain(distortion, reverb, tremolo);
+      });
+      console.log('new synth');
       break;
   }
 
@@ -240,7 +255,13 @@ function makeSound(rgb) {
   let noteArray = noteBrightness.find(calculateNote); 
 
   // Play the relevant note on the synch
-  synth.triggerAttackRelease(noteArray[0], "8n");
+  synth.toDestination().chain(distortion, reverb, tremolo).triggerAttack(noteArray[0]);
+}
+
+function mouseOut() {
+  if (synth) {
+    synth.triggerRelease();
+  }
 }
 
 // When a colour is input, change the trigger to that colour
@@ -252,3 +273,4 @@ document.addEventListener('input', function (event) {
 
 // Listen for click events
 document.addEventListener('mouseover', mouseHandler);
+document.addEventListener('mouseout', mouseOut);
