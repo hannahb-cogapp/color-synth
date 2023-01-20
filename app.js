@@ -20,12 +20,9 @@ String.prototype.convertToRGB = function(){
 
 // Call this function when a color is input into any of the input fields
 function inputHandler(event) {
-  console.log('input triggered');
   // Find the input number
   let inputNumber = event.closest('[data-color]').getAttribute('data-color');
   if (!inputNumber) return;
-
-  console.log(colorInputs[inputNumber-1].value.length);
 
   // If that number input has a value, then run the changeColor function, passing in it the relevant trigger
   if (colorInputs[inputNumber-1].value.length > 0) {
@@ -34,7 +31,6 @@ function inputHandler(event) {
 
     changeColor(colorInputs[inputNumber-1].value, trigger);
   } else {
-    console.log('equals 0');
     // Get the relevant trigger to add to the function
     let trigger = triggers[inputNumber-1];
 
@@ -67,8 +63,6 @@ function mouseHandler(event) {
 }
 
 function makeSound(rgb) {
-  console.log(rgb);
-
   let brightness = rgb.reduce((partialSum, a) => partialSum + a, 0) / 3;
 
   // Empty synth variable
@@ -230,148 +224,23 @@ function makeSound(rgb) {
       break;
   }
 
-  // Todo: Is there a way to change the switch statement to be more efficient? I'm not sure. Could you loop through this array, and say everytime i % iteration === 0, the indexCounter increases by one i.e. majorScale[indexCounter]
-  // Maybe the way you've done it makes the most sense?
-  // let majorScale = ["C2", "D2", "E2", "F2", "G2", "A2", "B2", "C3", "D3", "E3", "F3", "G3", "A3", "B3", "C4", "D4", "E4", "F4", "G4", "A4", "B4", "C5", "D5", "E5", "F5", "G5", "A5", "B5", "C6", "D6", "E6", "F6", "G6", "A6", "B6", "C7", "D7", "E7", "F7", "G7", "A7", "B7"];
+  // Create a nested array with all mappings from brightness to note
+  let noteBrightness = [["C2", 7], ["D2", 12], ["E2", 18], ["F2", 24], ["G2", 32], ["A2", 38], ["B2", 44], ["C3", 50], ["D3", 56], ["E3", 62], ["F3", 68], ["G3", 74], ["A3", 80], ["B3", 86],
+                        ["C4", 92], ["D4", 98], ["E4", 104], ["F4", 110], ["G4", 116], ["A4", 122], ["B4", 128], ["C5", 134], ["D5", 140], ["E5", 146], ["F5", 152], ["G5", 158], ["A5", 164], ["B5", 170],
+                        ["C6", 176], ["D6", 182], ["E6", 188], ["F6", 194], ["G6", 200], ["A6", 206], ["B6", 212], ["C7", 218], ["D7", 224], ["E7", 232], ["F7", 238], ["G7", 244], ["A7", 250], ["B7", 256]];
 
-  // let iteration = 6;
-
-  // Assign a pitch based on the brightness of the color
-  switch(true) {
-    // Todo: Is there a way to simplify this code? Could you do it in a way that would make it easier to change to a minor key?
-    // Perhaps you could put all of the notes in an array, and assign an incremented array index every 'x' times e.g. 6.
-    // Is there a way to loop and say every 6 loops move to the next index? loop.index?
-    case (brightness < 7):
-      //play a 'C2' for the duration of an 8th note
-      synth.triggerAttackRelease("C2", "8n");
-      break;
-    case (brightness >= 7 && brightness < 12):
-      synth.triggerAttackRelease("D2", "8n");
-      break;
-    case (brightness >= 12 && brightness < 18):
-      synth.triggerAttackRelease("E2", "8n");
-      break;
-    case (brightness >= 18 && brightness < 24):
-      synth.triggerAttackRelease("F2", "8n");
-      break;
-    case (brightness >= 24 && brightness < 32):
-      synth.triggerAttackRelease("G2", "8n");
-      break;
-    case (brightness >= 32 && brightness < 38):
-      synth.triggerAttackRelease("A2", "8n");
-      break;
-    case (brightness >= 38 && brightness < 44):
-      synth.triggerAttackRelease("B2", "8n");
-      break;
-    case (brightness >= 44 && brightness < 50):
-      synth.triggerAttackRelease("C3", "8n");
-      break;
-    case (brightness >= 50 && brightness < 56):
-      synth.triggerAttackRelease("D3", "8n");
-      break;
-    case (brightness >= 56 && brightness < 62):
-      synth.triggerAttackRelease("E3", "8n");
-      break;
-    case (brightness >= 62 && brightness < 68):
-      synth.triggerAttackRelease("F3", "8n");
-      break;
-    case (brightness >= 68 && brightness < 74):
-      synth.triggerAttackRelease("G3", "8n");
-      break;
-    case (brightness >= 74 && brightness < 80):
-      synth.triggerAttackRelease("A3", "8n");
-      break;
-    case (brightness >= 80 && brightness < 86):
-      synth.triggerAttackRelease("B3", "8n");
-      break;
-    case (brightness >= 86 && brightness < 92):
-      synth.triggerAttackRelease("C4", "8n");
-      break;
-    case (brightness >= 92 && brightness < 98):
-      synth.triggerAttackRelease("D4", "8n");
-      break;
-    case (brightness >= 98 && brightness < 104):
-      synth.triggerAttackRelease("E4", "8n");
-      break;
-    case (brightness >= 104 && brightness < 110):
-      synth.triggerAttackRelease("F4", "8n");
-      break;
-    case (brightness >= 110 && brightness < 116):
-      synth.triggerAttackRelease("G4", "8n");
-      break;
-    case (brightness >= 116 && brightness < 122):
-      synth.triggerAttackRelease("A4", "8n");
-      break;
-    case (brightness >= 122 && brightness < 128):
-      synth.triggerAttackRelease("B4", "8n");
-      break;
-    case (brightness >= 128 && brightness < 134):
-      synth.triggerAttackRelease("C5", "8n");
-      break;
-    case (brightness >= 134 && brightness < 140):
-      synth.triggerAttackRelease("D5", "8n");
-      break;
-    case (brightness >= 140 && brightness < 146):
-      synth.triggerAttackRelease("E5", "8n");
-      break;
-    case (brightness >= 146 && brightness < 152):
-      synth.triggerAttackRelease("F5", "8n");
-      break;
-    case (brightness >= 152 && brightness < 158):
-      synth.triggerAttackRelease("G5", "8n");
-      break;
-    case (brightness >= 158 && brightness < 164):
-      synth.triggerAttackRelease("A5", "8n");
-      break;
-    case (brightness >= 164 && brightness < 170):
-      synth.triggerAttackRelease("B5", "8n");
-      break;
-    case (brightness >= 170 && brightness < 176):
-      synth.triggerAttackRelease("C6", "8n");
-      break;
-    case (brightness >= 176 && brightness < 182):
-      synth.triggerAttackRelease("D6", "8n");
-      break;
-    case (brightness >= 182 && brightness < 188):
-      synth.triggerAttackRelease("E6", "8n");
-      break;
-    case (brightness >= 188 && brightness < 194):
-      synth.triggerAttackRelease("F6", "8n");
-      break;
-    case (brightness >= 194 && brightness < 200):
-      synth.triggerAttackRelease("G6", "8n");
-      break;
-    case (brightness >= 200 && brightness < 206):
-      synth.triggerAttackRelease("A6", "8n");
-      break;
-    case (brightness >= 206 && brightness < 212):
-      synth.triggerAttackRelease("B6", "8n");
-      break;
-    case (brightness >= 212 && brightness < 218):
-      synth.triggerAttackRelease("C7", "8n");
-      break;
-    case (brightness >= 218 && brightness < 224):
-      synth.triggerAttackRelease("D7", "8n");
-      break;
-    case (brightness >= 224 && brightness < 230):
-      synth.triggerAttackRelease("E7", "8n");
-      break;
-    case (brightness >= 230 && brightness < 236):
-      synth.triggerAttackRelease("F7", "8n");
-      break;
-    case (brightness >= 236 && brightness < 242):
-      synth.triggerAttackRelease("G7", "8n");
-      break;
-    case (brightness >= 242 && brightness < 248):
-      synth.triggerAttackRelease("A7", "8n");
-      break;
-    case (brightness >= 248 && brightness < 256):
-      synth.triggerAttackRelease("B7", "8n");
-      break;
-    default:
-      synth.triggerAttackRelease("C4", "8n");
-      break;
+  // Function to check if brightness is less than element[1]
+  function calculateNote(element) {
+    if (brightness < element[1]) {
+      return element;
+    }
   }
+
+  // Find the first array where brightness is less than array[1] 
+  let noteArray = noteBrightness.find(calculateNote); 
+
+  // Play the relevant note on the synch
+  synth.triggerAttackRelease(noteArray[0], "8n");
 }
 
 // When a colour is input, change the trigger to that colour
